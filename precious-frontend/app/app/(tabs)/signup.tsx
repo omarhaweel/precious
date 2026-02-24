@@ -1,6 +1,8 @@
 import { AppColors } from '@/constants/theme';
 import Toggler, { TogglerValue } from '../../components/ui/toggler';
 import {
+  Alert,
+  GestureResponderEvent,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -13,9 +15,36 @@ import {
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useState } from 'react';
 
+import { API_BASE } from '@/config/env';
+
 export default function SignupScreen() {
-  const [accountType, setAccountType] = useState<TogglerValue>('left');
+  const [accountType, setAccountType] = useState<TogglerValue>('Seller');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const insets = useSafeAreaInsets();
+
+  const API_USERS_CREATE_USER = `${API_BASE}/api/users/create-user`;
+  async function handleSignup(event: GestureResponderEvent): Promise<void> {
+    if (password !== confirmPassword) {
+      Alert.alert('Error', 'Passwords do not match');
+      return;
+    }
+    const response = await fetch(API_USERS_CREATE_USER, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: name,
+        email,
+        password,
+        role: accountType.toUpperCase(),
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+  }
+
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -33,12 +62,11 @@ export default function SignupScreen() {
           keyboardShouldPersistTaps="handled"
         >
           <Text style={styles.title}>Create account</Text>
-          <Text style={styles.subtitle}>Join and enjoy the luxury of a personalized shopping experience</Text>
+          <Text style={styles.subtitle}>Enjoy the luxury of a personalized shopping experience</Text>
 
+          {/* Toggler for account type */}
           <View style={styles.togglerContainer}>
             <Toggler
-              leftLabel="Seller"
-              rightLabel="Buyer"
               value={accountType}
               onValueChange={setAccountType}
             />
@@ -50,6 +78,8 @@ export default function SignupScreen() {
                 placeholder="Name"
                 placeholderTextColor="#9CA3AF"
                 autoCapitalize="words"
+                value={name}
+                onChangeText={setName}
               />
               <TextInput
                 style={styles.input}
@@ -57,18 +87,24 @@ export default function SignupScreen() {
                 placeholderTextColor="#9CA3AF"
                 keyboardType="email-address"
                 autoCapitalize="none"
+                value={email}
+                onChangeText={setEmail}
               />
               <TextInput
                 style={styles.input}
                 placeholder="Password"
                 placeholderTextColor="#9CA3AF"
                 secureTextEntry
+                value={password}
+                onChangeText={setPassword}
               />
               <TextInput
                 style={styles.input}
                 placeholder="Confirm password"
                 placeholderTextColor="#9CA3AF"
                 secureTextEntry
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
               />
             </View>
   
@@ -78,7 +114,7 @@ export default function SignupScreen() {
           </View>
             
             
-            <Pressable style={styles.signupButton}>
+            <Pressable style={styles.signupButton} onPress={handleSignup}>
               <Text style={styles.buttonText}>Sign up</Text>
             </Pressable>
   
@@ -87,7 +123,9 @@ export default function SignupScreen() {
       </SafeAreaView>
     );
   }
-  
+
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -1,6 +1,7 @@
 import * as WebBrowser from 'expo-web-browser';
 
-const API_BASE = 'http://localhost:8080'; // replace with production URL
+import { API_BASE } from '@/config/env';
+
 const OAUTH_GOOGLE_URL = `${API_BASE}/oauth2/authorization/google`;
 const AUTH_CALLBACK_SCHEME = 'app://auth/callback';
 

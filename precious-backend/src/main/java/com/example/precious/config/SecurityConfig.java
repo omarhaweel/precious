@@ -9,16 +9,30 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 
+/**
+ * Configures HTTP security, OAuth2 login, CORS, and session management.
+ *
+ * @author Omar Haweel
+ * @version 1.0
+ * @since 2026-02-24
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    /**
+     * Defines the security filter chain: public paths, OAuth2, CORS, logout, session.
+     *
+     * @param http HTTP security builder
+     * @return configured security filter chain
+     * @throws Exception if configuration fails
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/", "/error", "/login").permitAll()
-            .anyRequest().authenticated()
+            .anyRequest().permitAll() // change later to authenticated
         )
         .oauth2Login(oauth2 -> oauth2
             .loginPage("/oauth2/authorization/google")
@@ -44,6 +58,5 @@ public class SecurityConfig {
         );
 
         return http.build();
-
-        }
     }
+}

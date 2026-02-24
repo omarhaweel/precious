@@ -7,16 +7,14 @@ import Animated, {
 import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-export type TogglerValue = 'left' | 'right';
+export type TogglerValue = 'Seller' | 'Buyer';
 
 type TogglerProps = {
-  leftLabel?: string;
-  rightLabel?: string;
   value: TogglerValue;
   onValueChange: (value: TogglerValue) => void;
 };
 
-// Animation: higher stiffness = faster move, higher damping = less bounce
+// Animation
 const SPRING_CONFIG = {
   damping: 100,
   stiffness: 200,
@@ -25,21 +23,19 @@ const SPRING_CONFIG = {
 const PADDING = 8;
 
 export default function Toggler({
-  leftLabel = 'Seller',
-  rightLabel = 'Buyer',
   value,
   onValueChange,
 }: TogglerProps) {
-  const isLeft = value === 'left';
-  const progress = useSharedValue(isLeft ? 0 : 1);
+  const isSeller = value === 'Seller';
+  const progress = useSharedValue(isSeller ? 0 : 1);
   const segmentWidthSv = useSharedValue(0);
   const [trackWidth, setTrackWidth] = useState(0);
   const segmentWidth = trackWidth > 0 ? (trackWidth - PADDING) / 2 : 0;
 
   // Animation runs here: withSpring drives progress (0 = left, 1 = right) on the UI thread
   useEffect(() => {
-    progress.value = withSpring(isLeft ? 0 : 1, SPRING_CONFIG);
-  }, [isLeft, progress]);
+    progress.value = withSpring(isSeller ? 0 : 1, SPRING_CONFIG);
+  }, [isSeller, progress]);
 
   useEffect(() => {
     segmentWidthSv.value = segmentWidth;
@@ -70,28 +66,28 @@ export default function Toggler({
       )}
       <Pressable
         style={[styles.segment, styles.segmentLeft]}
-        onPress={() => onValueChange('left')}
+        onPress={() => onValueChange('Seller')}
       >
         <Text
           style={[
             styles.label,
-            isLeft ? styles.labelSelected : styles.labelUnselected,
+            isSeller ? styles.labelSelected : styles.labelUnselected,
           ]}
         >
-          {leftLabel}
+          Seller
         </Text>
       </Pressable>
       <Pressable
         style={[styles.segment, styles.segmentRight]}
-        onPress={() => onValueChange('right')}
+        onPress={() => onValueChange('Buyer')}
       >
         <Text
           style={[
             styles.label,
-            !isLeft ? styles.labelSelected : styles.labelUnselected,
+            !isSeller ? styles.labelSelected : styles.labelUnselected,
           ]}
         >
-          {rightLabel}
+          Buyer
         </Text>
       </Pressable>
     </View>
