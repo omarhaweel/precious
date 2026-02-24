@@ -1,0 +1,49 @@
+package com.example.precious.config;
+
+import java.util.List;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/", "/error", "/login").permitAll()
+            .anyRequest().authenticated()
+        )
+        .oauth2Login(oauth2 -> oauth2
+            .loginPage("/oauth2/authorization/google")
+            .defaultSuccessUrl("/login", true)
+        )
+        .csrf(csrf -> csrf.disable())
+        .cors(cors -> cors.configurationSource(request -> {
+            var corsConfig = new CorsConfiguration();
+            corsConfig.setAllowedOrigins(List.of("http://localhost:3000")); // My frontend
+            corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+            corsConfig.setAllowedHeaders(List.of("*"));
+            corsConfig.setAllowCredentials(true);
+            return corsConfig;
+        }))
+        .logout(logout -> logout
+            .logoutSuccessUrl("/")
+            .invalidateHttpSession(true)
+            .deleteCookies("JSESSIONID")
+        )
+        .sessionManagement(session -> session
+            .maximumSessions(1)
+            .maxSessionsPreventsLogin(false)
+        );
+
+        return http.build();
+
+        }
+    }
