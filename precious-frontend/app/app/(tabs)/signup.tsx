@@ -16,6 +16,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useState } from 'react';
 
 import { API_BASE } from '@/config/env';
+import { router } from 'expo-router';
 
 export default function SignupScreen() {
   const [accountType, setAccountType] = useState<TogglerValue>('Seller');
@@ -31,18 +32,29 @@ export default function SignupScreen() {
       Alert.alert('Error', 'Passwords do not match');
       return;
     }
-    const response = await fetch(API_USERS_CREATE_USER, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        username: name,
-        email,
-        password,
-        role: accountType.toUpperCase(),
-      }),
-    });
-    const data = await response.json();
-    console.log(data);
+    try {
+      const response = await fetch(API_USERS_CREATE_USER, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: name,
+          email,
+          password,
+          role: accountType.toUpperCase(),
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        const message = (data && typeof data.message === 'string') ? data.message : 'Sign up failed. Try again.';
+        Alert.alert('Sign up failed', message);
+        return;
+      }
+      Alert.alert('Account created. You can sign in now.');
+      router.replace('/');
+
+    } catch {
+      Alert.alert('Error', 'Could not reach server. Check your connection.');
+    }
   }
 
 

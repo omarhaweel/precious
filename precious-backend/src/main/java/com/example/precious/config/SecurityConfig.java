@@ -41,7 +41,7 @@ public class SecurityConfig {
         .csrf(csrf -> csrf.disable())
         .cors(cors -> cors.configurationSource(request -> {
             var corsConfig = new CorsConfiguration();
-            corsConfig.setAllowedOrigins(List.of("http://localhost:3000")); // My frontend
+            corsConfig.setAllowedOrigins(List.of("http://localhost:3000", "http://10.0.0.6.nip.io:8080"));
             corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
             corsConfig.setAllowedHeaders(List.of("*"));
             corsConfig.setAllowCredentials(true);

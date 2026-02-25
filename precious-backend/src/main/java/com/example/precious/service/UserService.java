@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.precious.dto.UserCreateDto;
 import com.example.precious.dto.UserResponseDto;
 import com.example.precious.entity.User;
+import com.example.precious.exception.EmailAlreadyExistsException;
 import com.example.precious.mapper.UserMapper;
 import com.example.precious.repository.UserRepository;
 
@@ -60,13 +61,16 @@ public class UserService {
     }
 
     /**
-     * Create a new user from a DTO.
+     * Create a new user from a DTO. Throws {@link EmailAlreadyExistsException} if email is already registered.
      */
     @Transactional
     public UserResponseDto createUserFromDto(UserCreateDto userCreateDto) {
+        if (userRepository.existsByEmail(userCreateDto.getEmail())) {
+            throw new EmailAlreadyExistsException("This email is already registered.");
+        }
         User user = userMapper.toEntity(userCreateDto);
         user = userRepository.save(user);
-        return userMapper.toResponseDto(user); // returning the user response dto without the password
+        return userMapper.toResponseDto(user);
     }
 
     /**
