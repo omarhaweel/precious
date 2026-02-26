@@ -12,10 +12,6 @@ import lombok.NoArgsConstructor;
 
 /**
  * DTO for creating a new user (e.g. registration). Password should be hashed in the service layer.
- *
- * @author Omar Haweel
- * @version 1.0
- * @since 2026-02-24
  */
 @Data
 @NoArgsConstructor

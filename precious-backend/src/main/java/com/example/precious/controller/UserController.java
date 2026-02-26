@@ -14,10 +14,6 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * REST API for user operations. All responses use DTOs so the password is never exposed.
- *
- * @author Omar Haweel
- * @version 1.0
- * @since 2026-02-24
  */
 
 @RestController

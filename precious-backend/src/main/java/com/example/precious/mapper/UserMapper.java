@@ -9,10 +9,6 @@ import com.example.precious.entity.User;
 /**
  * Maps between {@link User} entity and user DTOs. Use this whenever converting
  * entity to/from DTO so the password is never exposed in responses.
- * 
- * @author Omar Haweel
- * @version 1.0
- * @since 2026-02-24
  */
 
 @Component

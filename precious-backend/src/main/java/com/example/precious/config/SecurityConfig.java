@@ -6,33 +6,32 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
 /**
  * Configures HTTP security, OAuth2 login, CORS, and session management.
- *
- * @author Omar Haweel
- * @version 1.0
- * @since 2026-02-24
  */
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    /**
-     * Defines the security filter chain: public paths, OAuth2, CORS, logout, session.
-     *
-     * @param http HTTP security builder
-     * @return configured security filter chain
-     * @throws Exception if configuration fails
-     */
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/", "/error", "/login").permitAll()
-            .anyRequest().permitAll() // change later to authenticated
+            .requestMatchers("/api/logout", "/api/login/google", "/api/login/email-and-password", "/api/users/create-user").permitAll()
+            .anyRequest().authenticated()
         )
         .oauth2Login(oauth2 -> oauth2
             .loginPage("/oauth2/authorization/google")
@@ -47,16 +46,15 @@ public class SecurityConfig {
             corsConfig.setAllowCredentials(true);
             return corsConfig;
         }))
+        .sessionManagement(session -> session
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        )
+        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
         .logout(logout -> logout
             .logoutSuccessUrl("/api/logout")
             .invalidateHttpSession(true)
             .deleteCookies("JSESSIONID")
-        )
-        .sessionManagement(session -> session
-            .maximumSessions(1)
-            .maxSessionsPreventsLogin(false)
         );
-
         return http.build();
     }
 }

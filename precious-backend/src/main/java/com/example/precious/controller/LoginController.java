@@ -1,30 +1,24 @@
 package com.example.precious.controller;
-
 import java.util.Map;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.precious.dto.UserResponseDto;
+import com.example.precious.service.JwtService;
 import com.example.precious.service.LoginService;
 
 /**
  * After OAuth success, Spring redirects here. Redirects to the app deep link so the mobile app
  * can complete the auth session and navigate to homescreen.
- *
- * @author Omar Haweel
- * @version 1.0
- * @since 2026-02-24
  */
 @RestController
 public class LoginController {
     private final LoginService loginService;
 
-    public LoginController(LoginService loginService) {
+    public LoginController(LoginService loginService, JwtService jwtService) {
         this.loginService = loginService;
     }
 
@@ -43,8 +37,18 @@ public class LoginController {
     }
 
     @GetMapping("/api/login/email-and-password")
-    public ResponseEntity<Map<String, Object>> loginWithEmailAndPassword(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<Map<String, Object>> loginWithEmailAndPassword(
+        @RequestParam String email,
+         @RequestParam String password) {
         UserResponseDto userResponseDto = loginService.loginWithEmailAndPassword(email, password);
-        return ResponseEntity.ok(Map.of("success", true, "user", userResponseDto));
+        if (userResponseDto == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("success", false, "message", "Invalid email or password"));
+        }
+        String token = loginService.issueTokenForUser(userResponseDto.getId());
+        return ResponseEntity.ok(Map.of(
+            "success", true,
+            "user", userResponseDto,
+            "token", token));
     }
 }

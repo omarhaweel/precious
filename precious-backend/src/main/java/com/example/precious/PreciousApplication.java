@@ -1,16 +1,6 @@
 package com.example.precious;
-
-/**
- * Precious application.
- * 
- * @author Omar Haweel
- * @version 1.0
- * @since 2026-02-24
- */
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import io.github.cdimascio.dotenv.Dotenv;
 
 @SpringBootApplication

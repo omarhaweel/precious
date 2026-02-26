@@ -33,47 +33,47 @@ const CATEGORIES: Record<string, CategoryItem> = {
   Watches: {
     name: 'Watches',
     icon: () => <WatchesSvg width={ICON_SIZE} height={ICON_SIZE} />,
-    onPress: () => console.log('Watches pressed'), // TODO: add on press function for each category
+    onPress: () => {}, // TODO: add on press function for each category
   },
   Gemstone: {
     name: 'Gemstones',
     icon: () => <GemstoneSvg width={ICON_SIZE} height={ICON_SIZE} color={AppColors.button} />,
-    onPress: () => console.log('Gemstones pressed'), // TODO: add on press function for each category
+    onPress: () => {}, // TODO: add on press function for each category
   },
   Jewelry: {
     name: 'Jewelry',
     icon: () => <JewelrySvg width={ICON_SIZE} height={ICON_SIZE} />,
-    onPress: () => console.log('Jewelry pressed'), // TODO: add on press function for each category
+    onPress: () => {}, // TODO: add on press function for each category
   },
   Sunglasses: {
     name: 'Sunglasses',
     icon: () => <SunglassesSvg width={ICON_SIZE} height={ICON_SIZE} />,
-    onPress: () => console.log('Sunglasses pressed'), // TODO: add on press function for each category
+    onPress: () => {}, // TODO: add on press function for each category
   },
   Leather: {
     name: 'Leather',
     icon: () => <LeatherSvg width={ICON_SIZE} height={ICON_SIZE}  />,
-    onPress: () => console.log('Leather pressed'), // TODO: add on press function for each category
+    onPress: () => {}, // TODO: add on press function for each category
   },
   Repair: {
     name: 'Service',
     icon: () => <RepairSvg width={ICON_SIZE} height={ICON_SIZE} />,
-    onPress: () => console.log('Repair pressed'), // TODO: add on press function for each category
+    onPress: () => {}, // TODO: add on press function for each category
   },
   Jewelry2: {
     name: 'Jewelry',
     icon: () => <JewelrySvg width={ICON_SIZE} height={ICON_SIZE} />,
-    onPress: () => console.log('Jewelry pressed'), // TODO: add on press function for each category
+    onPress: () => {}, // TODO: add on press function for each category
   },
   Sunglasses2: {
     name: 'Sunglasses',
     icon: () => <SunglassesSvg width={ICON_SIZE} height={ICON_SIZE} />,
-    onPress: () => console.log('Sunglasses pressed'), // TODO: add on press function for each category
+    onPress: () => {}, // TODO: add on press function for each category
   },
   Leather2: {
     name: 'Leather',
     icon: () => <LeatherSvg width={ICON_SIZE} height={ICON_SIZE}  />,
-    onPress: () => console.log('Leather pressed'), // TODO: add on press function for each category
+    onPress: () => {}, // TODO: add on press function for each category
   },
   // add more categories here
 };

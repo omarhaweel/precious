@@ -18,10 +18,6 @@ import lombok.Setter;
 /**
  * User JPA entity. Persists username, email, hashed password, and buyer/seller flags.
  * Store password hashed in production (e.g. BCrypt).
- *
- * @author Omar Haweel
- * @version 1.0
- * @since 2026-02-24
  */
 @Entity
 @Table(

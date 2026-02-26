@@ -2,10 +2,6 @@ package com.example.precious.repository;
 
 /**
  * User repository.
- * 
- * @author Omar Haweel
- * @version 1.0
- * @since 2026-02-24
  */
 
 import java.util.Optional;

@@ -9,10 +9,6 @@ import lombok.NoArgsConstructor;
 
 /**
  * DTO for returning user data in API responses. Never contains password.
- * 
- * @author Omar Haweel
- * @version 1.0
- * @since 2026-02-24
  */
 @Data
 @NoArgsConstructor

@@ -1,9 +1,27 @@
 import * as WebBrowser from 'expo-web-browser';
+import * as SecureStore from 'expo-secure-store';
 
 import { API_BASE } from '@/config/env';
 
 const OAUTH_GOOGLE_URL = `${API_BASE}/oauth2/authorization/google`;
 const AUTH_CALLBACK_SCHEME = 'app://auth/callback';
+const TOKEN_KEY = 'auth_token';
+
+
+export async function getToken(): Promise<string | null> {
+  return SecureStore.getItemAsync(TOKEN_KEY);
+}
+
+export async function setToken(token: string): Promise<void> {
+  await SecureStore.setItemAsync(TOKEN_KEY, token);
+}
+
+export async function clearToken(): Promise<void> {
+  await SecureStore.deleteItemAsync(TOKEN_KEY);
+}
+
+export type AuthUser = { id: number; username: string; email: string; role: string };
+
 
 /**
  * Calls the login endpoint with email and password. On success returns { success: true, user }.
@@ -11,7 +29,7 @@ const AUTH_CALLBACK_SCHEME = 'app://auth/callback';
 export async function signInWithEmailAndPassword(
   email: string,
   password: string
-): Promise<{ success: boolean; user?: { id: number; username: string; email: string; role: string } }> {
+): Promise<{ success: boolean; user?: AuthUser, token?: string }> {
   try {
     const params = new URLSearchParams({ email, password });
     const response = await fetch(`${API_BASE}/api/login/email-and-password?${params}`, {
@@ -19,7 +37,10 @@ export async function signInWithEmailAndPassword(
       headers: { 'Content-Type': 'application/json' },
     });
     const data = await response.json().catch(() => ({}));
-    return { success: data.success, user: data.user };
+    if (data.success && data.token) {
+      await setToken(data.token);
+    }
+    return { success: data.success, user: data.user, token: data.token };
   } catch {
     return { success: false };
   }

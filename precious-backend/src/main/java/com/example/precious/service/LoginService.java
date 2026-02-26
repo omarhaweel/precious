@@ -17,17 +17,15 @@ public class LoginService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    public LoginService(UserRepository userRepository, UserMapper userMapper) {
+    private final JwtService jwtService;
+    public LoginService(UserRepository userRepository, UserMapper userMapper, JwtService jwtService) {
+        this.jwtService = jwtService;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
     }
 
     /**
      * Login with email and password.
-     * 
-     * @param email
-     * @param password
-     * @return
      */
     public UserResponseDto loginWithEmailAndPassword(String email, String password) {
         Optional<User> user = userRepository.findByEmail(email);
@@ -42,5 +40,14 @@ public class LoginService {
             return null;
         }
         return null;
+    }
+
+    /**
+     * Issue a token for a user.
+     */
+    public String issueTokenForUser(Long userId) {
+        return userRepository.findById(userId)
+                .map(user -> jwtService.generateToken(userId))
+                .orElse(null);
     }
 }

@@ -9,5 +9,5 @@ CREATE TABLE users (
     CONSTRAINT uk_users_email    UNIQUE (email)
 );
 
--- Create unique index on email
+-- Creates a unique index on email for faster lookup
 CREATE UNIQUE INDEX idx_users_email ON users (email);

@@ -1,26 +1,14 @@
 package com.example.precious.service;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-/**
- * User service.
- * 
- * @author Omar Haweel
- * @version 1.0
- * @since 2026-02-24
- */
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.example.precious.dto.UserCreateDto;
 import com.example.precious.dto.UserResponseDto;
 import com.example.precious.entity.User;
 import com.example.precious.exception.EmailAlreadyExistsException;
 import com.example.precious.mapper.UserMapper;
 import com.example.precious.repository.UserRepository;
-
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -36,7 +24,7 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    
+
     /**
      * Get user by id as response DTO (no password).
      */
