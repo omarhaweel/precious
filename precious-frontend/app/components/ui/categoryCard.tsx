@@ -177,7 +177,6 @@ const styles = StyleSheet.create({
   verticalScrollWrapper: {
     flex: 1,
     marginHorizontal: -35,
-    borderWidth: 1, // to be removed
   },
   verticalScrollView: {
     flex: 1,
