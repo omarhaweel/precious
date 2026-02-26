@@ -7,6 +7,7 @@ export default function TabsLayout() {
       <Stack.Screen name="signup" />
       <Stack.Screen name="homescreen" />
       <Stack.Screen name="loginForm" />
+      <Stack.Screen name="profile" />
     </Stack>
   );
 }

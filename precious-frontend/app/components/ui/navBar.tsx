@@ -1,14 +1,22 @@
 import { AppColors } from '@/constants/theme';
+import { type Href, router, usePathname } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-const NAV_ITEMS = [
-  { label: 'Profile', onPress: () => console.log('Profile pressed') },
-  { label: 'Settings', onPress: () => console.log('Settings pressed') },
-  { label: 'Info', onPress: () => console.log('Info pressed') },
-  { label: 'Contact', onPress: () => console.log('Contact pressed') },
-] as const;
-
 export default function NavBar() {
+  const pathname = usePathname();
+
+  const handleProfilePress = () => {
+    if (pathname?.includes('profile')) return;
+    router.push('/(tabs)/profile' as Href);
+  };
+
+  const NAV_ITEMS = [
+    { label: 'Profile', onPress: handleProfilePress },
+    { label: 'Settings', onPress: () => {} },
+    { label: 'Info', onPress: () => {} },
+    { label: 'Contact', onPress: () => {} },
+  ] as const;
+
   return (
     <View style={styles.container}>
       <View style={styles.navLinks}>

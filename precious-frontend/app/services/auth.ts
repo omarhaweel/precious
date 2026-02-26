@@ -6,7 +6,7 @@ import { API_BASE } from '@/config/env';
 const OAUTH_GOOGLE_URL = `${API_BASE}/oauth2/authorization/google`;
 const AUTH_CALLBACK_SCHEME = 'app://auth/callback';
 const TOKEN_KEY = 'auth_token';
-
+const USER_KEY = 'auth_user';
 
 export async function getToken(): Promise<string | null> {
   return SecureStore.getItemAsync(TOKEN_KEY);
@@ -21,6 +21,29 @@ export async function clearToken(): Promise<void> {
 }
 
 export type AuthUser = { id: number; username: string; email: string; role: string };
+
+export async function getStoredUser(): Promise<AuthUser | null> {
+  const raw = await SecureStore.getItemAsync(USER_KEY);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as AuthUser;
+  } catch {
+    return null;
+  }
+}
+
+export async function setStoredUser(user: AuthUser | null): Promise<void> {
+  if (user == null) {
+    await SecureStore.deleteItemAsync(USER_KEY);
+  } else {
+    await SecureStore.setItemAsync(USER_KEY, JSON.stringify(user));
+  }
+}
+
+export async function logout(): Promise<void> {
+  await clearToken();
+  await setStoredUser(null);
+}
 
 
 /**
@@ -39,6 +62,7 @@ export async function signInWithEmailAndPassword(
     const data = await response.json().catch(() => ({}));
     if (data.success && data.token) {
       await setToken(data.token);
+      if (data.user) await setStoredUser(data.user);
     }
     return { success: data.success, user: data.user, token: data.token };
   } catch {
