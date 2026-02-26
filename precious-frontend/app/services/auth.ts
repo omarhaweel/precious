@@ -6,18 +6,22 @@ const OAUTH_GOOGLE_URL = `${API_BASE}/oauth2/authorization/google`;
 const AUTH_CALLBACK_SCHEME = 'app://auth/callback';
 
 /**
- * Calls the login endpoint. On success returns true so the caller can redirect.
+ * Calls the login endpoint with email and password. On success returns { success: true, user }.
  */
-export async function signInWithEmailAndPassword(): Promise<boolean> {
+export async function signInWithEmailAndPassword(
+  email: string,
+  password: string
+): Promise<{ success: boolean; user?: { id: number; username: string; email: string; role: string } }> {
   try {
-    const response = await fetch(`${API_BASE}/`, {
+    const params = new URLSearchParams({ email, password });
+    const response = await fetch(`${API_BASE}/api/login/email-and-password?${params}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
-    const data = await response.json();
-    return data;
+    const data = await response.json().catch(() => ({}));
+    return { success: data.success, user: data.user };
   } catch {
-    return false;
+    return { success: false };
   }
 }
 

@@ -1,5 +1,8 @@
 package com.example.precious.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 /**
  * User service.
  * 
@@ -31,7 +34,9 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    
     /**
      * Get user by id as response DTO (no password).
      */
@@ -68,6 +73,10 @@ public class UserService {
         if (userRepository.existsByEmail(userCreateDto.getEmail())) {
             throw new EmailAlreadyExistsException("This email is already registered.");
         }
+        // hash the password
+        String hashedPassword = passwordEncoder.encode(userCreateDto.getPassword());
+        userCreateDto.setPassword(hashedPassword);
+        
         User user = userMapper.toEntity(userCreateDto);
         user = userRepository.save(user);
         return userMapper.toResponseDto(user);

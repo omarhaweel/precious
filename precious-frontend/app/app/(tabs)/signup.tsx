@@ -32,13 +32,25 @@ export default function SignupScreen() {
       Alert.alert('Error', 'Passwords do not match');
       return;
     }
+    if (password.length < 8) {
+      Alert.alert('Error', 'Password must be at least 8 characters long');
+      return;
+    }
+    if (!email.includes('@')) {
+      Alert.alert('Error', 'Invalid email address');
+      return;
+    }
+    if (!name.trim()) {
+      Alert.alert('Error', 'Name is required');
+      return;
+    }
     try {
       const response = await fetch(API_USERS_CREATE_USER, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           username: name,
-          email,
+          email: email.toLowerCase(),
           password,
           role: accountType.toUpperCase(),
         }),
@@ -129,6 +141,10 @@ export default function SignupScreen() {
             <Pressable style={styles.signupButton} onPress={handleSignup}>
               <Text style={styles.buttonText}>Sign up</Text>
             </Pressable>
+
+            <Pressable onPress={() => router.back()}>
+              <Text style={styles.backLinkText}>Back</Text>
+            </Pressable>
   
           </ScrollView>
         </KeyboardAvoidingView>
@@ -178,7 +194,7 @@ const styles = StyleSheet.create({
     },
   togglerContainer: {
     marginBottom: '5%',
-    marginTop: '30%',
+    marginTop: '5%',
   },
   signupButton: {
     backgroundColor: AppColors.button,
@@ -191,6 +207,8 @@ const styles = StyleSheet.create({
     color: AppColors.buttonText,
       fontSize: 16,
       fontWeight: '600',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     formContainer: {
       marginTop: '10%',
@@ -212,4 +230,26 @@ const styles = StyleSheet.create({
       fontWeight: '500',
       marginHorizontal: 12,
     },
+    backToLoginButton: {
+      backgroundColor: AppColors.button,
+      paddingVertical: 14,
+      borderRadius: 30,
+      alignItems: 'center',
+      marginTop: '5%',
+    },
+    backLink: {
+      backgroundColor: AppColors.button,
+      paddingVertical: 14,
+      borderRadius: 30,
+      alignItems: 'center',
+      marginTop: '5%',
+    },
+    backLinkText: {
+      color: '#9CA3AF',
+      fontSize: 16,
+      marginTop: '5%',
+      alignSelf: 'center',
+      textAlign: 'center',
+    },
+    
 });

@@ -36,7 +36,7 @@ public class SecurityConfig {
         )
         .oauth2Login(oauth2 -> oauth2
             .loginPage("/oauth2/authorization/google")
-            .defaultSuccessUrl("/login", true)
+            .defaultSuccessUrl("/api/login/google", true)
         )
         .csrf(csrf -> csrf.disable())
         .cors(cors -> cors.configurationSource(request -> {
@@ -48,7 +48,7 @@ public class SecurityConfig {
             return corsConfig;
         }))
         .logout(logout -> logout
-            .logoutSuccessUrl("/")
+            .logoutSuccessUrl("/api/logout")
             .invalidateHttpSession(true)
             .deleteCookies("JSESSIONID")
         )

@@ -2,6 +2,7 @@ package com.example.precious.controller;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 
     /**
-     * Returns a JSON payload indicating an authenticated state.
-     *
-     * @return wrapper containing {@code true} for the authenticated flag
+     * logout esndpoint
+     * 
      */
-    @GetMapping("/")
-    public AtomicBoolean getIsAuthenticated() {
-        return new AtomicBoolean(true);
+    @GetMapping("/api/logout")
+    public ResponseEntity<Void> logout() {
+        return ResponseEntity.ok().build();
     }
+
 }

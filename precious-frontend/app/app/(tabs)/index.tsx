@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import GoogleSignInComponent from '@/components/ui/googleSignIn';
-import { signInWithEmailAndPassword, signInWithGoogle } from '@/services/auth';
+import { signInWithGoogle } from '@/services/auth';
 
 export default function HomeScreen() {
   const openLink = (url: string) => () => openBrowserAsync(url);
@@ -37,10 +37,7 @@ export default function HomeScreen() {
 
         <Pressable
           style={styles.secondaryButton}
-          onPress={async () => {
-            const success = await signInWithEmailAndPassword();
-            if (success) router.push('/homescreen');
-          }}
+          onPress={() => router.push('/loginForm')}
         >
           <Text style={styles.secondaryButtonText}>Log in</Text>
         </Pressable>
@@ -63,9 +60,10 @@ export default function HomeScreen() {
           </Text>
         </Text>
 
-        <Text style={styles.versionText}>Version 1.1</Text>
-      </ScrollView>
-    </SafeAreaView>
+          <Text style={styles.versionText}>Version 1.1</Text>
+        </ScrollView>
+      </SafeAreaView>
+    
   );
 }
 
@@ -74,10 +72,48 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: AppColors.background,
   },
+  keyboardView: {
+    flex: 1,
+  },
   scrollContent: {
     flexGrow: 1,
     paddingHorizontal: 24,
     paddingTop: 48,
+  },
+  card: {
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderRadius: 20,
+    padding: 24,
+    marginTop: 16,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.12)',
+  },
+  input: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderWidth: 1,
+    borderColor: '#374151',
+    borderRadius: 30,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    color: '#fff',
+    marginBottom: 16,
+  },
+  loginButton: {
+    backgroundColor: AppColors.button,
+    paddingVertical: 14,
+    borderRadius: 30,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  loginButtonDisabled: {
+    opacity: 0.7,
+  },
+  loginButtonText: {
+    color: AppColors.buttonText,
+    fontSize: 16,
+    fontWeight: '600',
   },
   welcomeTitle: {
     fontSize: 28,
