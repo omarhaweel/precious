@@ -107,6 +107,11 @@ const styles = StyleSheet.create({
     width: '40%',
     alignSelf: 'center',
     position: 'relative',
+    shadowColor: 'yellow',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.9,
+    shadowRadius: 7,
+    elevation: 5,
   },
   pill: {
     position: 'absolute',

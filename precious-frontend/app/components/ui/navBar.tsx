@@ -10,11 +10,20 @@ export default function NavBar() {
     router.push('/(tabs)/profile' as Href);
   };
 
+  const handleSellPress = () => {
+    if (pathname?.includes('sellScreen')) return;
+    router.push('/(tabs)/sellScreen' as Href);
+  };
+
+  const handleHomePress = () => {
+    if (pathname?.includes('homescreen')) return;
+    router.push('/(tabs)/homescreen' as Href);
+  };
+  
   const NAV_ITEMS = [
+    {label: 'Home', onPress: handleHomePress },
+    { label: 'Sell', onPress: handleSellPress },
     { label: 'Profile', onPress: handleProfilePress },
-    { label: 'Settings', onPress: () => {} },
-    { label: 'Info', onPress: () => {} },
-    { label: 'Contact', onPress: () => {} },
   ] as const;
 
   return (

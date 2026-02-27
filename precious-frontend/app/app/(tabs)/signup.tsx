@@ -16,9 +16,17 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useState } from 'react';
 
 import { API_BASE } from '@/config/env';
+import { getToken } from '@/services/auth';
 import { router } from 'expo-router';
+import { useEffect } from 'react';
 
 export default function SignupScreen() {
+  useEffect(() => {
+    getToken().then((token) => {
+      if (token) router.replace('/(tabs)/homescreen');
+    });
+  }, []);
+
   const [accountType, setAccountType] = useState<TogglerValue>('Seller');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -191,6 +199,11 @@ const styles = StyleSheet.create({
       fontSize: 16,
       color: '#fff',
       marginBottom: 16,
+      shadowColor: 'yellow',
+      shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: 0.2,
+      shadowRadius: 7,
+      elevation: 2,  
     },
   togglerContainer: {
     marginBottom: '5%',
@@ -211,7 +224,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     formContainer: {
-      marginTop: '10%',
+      marginTop: '10%'
     },
     dividerContainer: {
       flexDirection: 'row',

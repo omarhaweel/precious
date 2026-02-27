@@ -35,7 +35,7 @@ export default function LoginFormScreen() {
     try {
       const result = await signInWithEmailAndPassword(email.trim().toLowerCase(), password);
       if (result.success) {
-        router.replace('/homescreen');
+        router.replace('/(tabs)/homescreen');
       } else {
         Alert.alert('Login failed', 'Invalid email or password. Please try again.');
       }
