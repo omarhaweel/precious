@@ -95,6 +95,7 @@ export default function SellScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Text style={styles.title}>What do you want to sell?</Text>
+        <Text style={styles.DropDownDescription}>Describe your item in detail...</Text>
 
         <Pressable
           style={styles.dropdown}
@@ -149,13 +150,12 @@ export default function SellScreen() {
           textAlignVertical="top"
         />
 
-        <Text style={styles.label}>Photos</Text>
+        <Text style={styles.label}>Add Images</Text>
         <View style={styles.uploadRow}>
           <Pressable style={styles.uploadButton} onPress={showUploadOptions}>
             <Ionicons name="add" size={32} color={AppColors.buttonText} />
             <Text style={styles.uploadLabel}>Upload</Text>
           </Pressable>
-          <Text style={styles.uploadHint}>Library or camera</Text>
         </View>
 
         {images.length > 0 && (
@@ -189,7 +189,28 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: AppColors.background },
   scroll: { flex: 1 },
   scrollContent: { paddingHorizontal: 24, paddingTop: 24, paddingBottom: 100 },
-  title: { fontSize: 22, fontWeight: '600', color: AppColors.fontColor, marginBottom: 16 },
+
+
+  title: { fontSize: 22,
+    fontWeight: '600',
+    color: AppColors.fontColor,
+    marginBottom: 20,
+    marginTop: 40,
+  },
+  description: { fontSize: 16,
+     color: AppColors.fontColor,
+      marginBottom: 24,
+       marginTop: 24,
+        textAlign: 'center' },
+        
+  DropDownDescription: { fontSize: 16,
+     color: AppColors.fontColor,
+      marginBottom: 24,
+       marginTop: 24,
+        textAlign: 'center',
+        fontWeight: '500',
+       },
+  
   dropdown: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -199,8 +220,14 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 16,
     marginBottom: 24,
+    marginTop: -10,
     borderWidth: 1,
     borderColor: 'rgba(220, 252, 231, 0.25)',
+    shadowColor: 'yellow',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   dropdownText: { fontSize: 16, color: AppColors.fontColor },
   placeholder: { opacity: 0.7 },
@@ -224,7 +251,15 @@ const styles = StyleSheet.create({
     borderBottomColor: 'rgba(220, 252, 231, 0.15)',
   },
   modalOptionText: { fontSize: 16, color: AppColors.fontColor },
-  label: { fontSize: 16, fontWeight: '500', color: AppColors.fontColor, marginBottom: 8 },
+
+  label: { fontSize: 16,
+     fontWeight: '500',
+      color: AppColors.fontColor,
+       marginBottom: 8,
+       marginTop: 40,
+      textAlign: 'center',
+     },
+  
   descriptionInput: {
     backgroundColor: CARD_BG,
     borderRadius: 16,
@@ -236,8 +271,19 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     borderWidth: 1,
     borderColor: 'rgba(220, 252, 231, 0.25)',
+    shadowColor: 'yellow',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
-  uploadRow: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 16 },
+  uploadRow: { flexDirection: 'row',
+     alignItems: 'center',
+      gap: 12,
+       marginBottom: 16,
+       justifyContent: 'center',
+       shadowColor: 'yellow',
+      },
   uploadButton: {
     width: 72,
     height: 72,
@@ -248,6 +294,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(220, 252, 231, 0.4)',
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: 'yellow',
   },
   uploadLabel: { fontSize: 12, color: AppColors.fontColor, marginTop: 4 },
   uploadHint: { fontSize: 14, color: AppColors.fontColor, opacity: 0.7 },
