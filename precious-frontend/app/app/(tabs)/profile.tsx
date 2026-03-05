@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     overflow: 'hidden',
     minHeight: 500,
-    marginTop: -8,
+    marginTop: -20,
   },
   menuRow: {
     flexDirection: 'row',

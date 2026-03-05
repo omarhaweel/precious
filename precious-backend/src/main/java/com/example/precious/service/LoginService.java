@@ -8,17 +8,17 @@ import org.springframework.stereotype.Service;
 
 import com.example.precious.dto.UserResponseDto;
 import com.example.precious.entity.User;
-import com.example.precious.mapper.UserMapper;
+import com.example.precious.mapper.Mapper;
 import com.example.precious.repository.UserRepository;
 
 @Service
 public class LoginService {
 
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
+    private final Mapper userMapper;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final JwtService jwtService;
-    public LoginService(UserRepository userRepository, UserMapper userMapper, JwtService jwtService) {
+    public LoginService(UserRepository userRepository, Mapper userMapper, JwtService jwtService) {
         this.jwtService = jwtService;
         this.userRepository = userRepository;
         this.userMapper = userMapper;

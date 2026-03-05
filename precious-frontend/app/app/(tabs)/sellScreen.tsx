@@ -31,7 +31,8 @@ export default function SellScreen() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [description, setDescription] = useState('');
   const [images, setImages] = useState<string[]>([]);
-
+  const [title, setTitle] = useState('');
+  const [price, setPrice] = useState('');
   const requestMediaPermissions = useCallback(async (isCamera: boolean) => {
     if (isCamera) {
       const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -95,8 +96,7 @@ export default function SellScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Text style={styles.title}>What do you want to sell?</Text>
-        <Text style={styles.DropDownDescription}>Describe your item in detail...</Text>
-
+        
         <Pressable
           style={styles.dropdown}
           onPress={() => setDropdownOpen((o) => !o)}
@@ -138,6 +138,15 @@ export default function SellScreen() {
           </Pressable>
         </Modal>
 
+        <Text style={styles.label}>Title</Text>
+        <TextInput
+          style={styles.titleInput}
+          placeholder="Enter title"
+          placeholderTextColor="rgba(220, 252, 231, 0.5)"
+          value={title}
+          onChangeText={setTitle}
+        />
+
         <Text style={styles.label}>Description</Text>
         <TextInput
           style={styles.descriptionInput}
@@ -148,6 +157,16 @@ export default function SellScreen() {
           value={description}
           onChangeText={setDescription}
           textAlignVertical="top"
+        />
+
+        <Text style={styles.label}>Price</Text>
+        <TextInput
+          style={styles.titleInput}
+          placeholder="Enter price in NOK"
+          placeholderTextColor="rgba(220, 252, 231, 0.5)"
+          value={price}
+          onChangeText={setPrice}
+          keyboardType="numeric"
         />
 
         <Text style={styles.label}>Add Images</Text>
@@ -195,7 +214,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: AppColors.fontColor,
     marginBottom: 20,
-    marginTop: 40,
+    marginTop: 20,
   },
   description: { fontSize: 16,
      color: AppColors.fontColor,
@@ -220,7 +239,6 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 16,
     marginBottom: 24,
-    marginTop: -10,
     borderWidth: 1,
     borderColor: 'rgba(220, 252, 231, 0.25)',
     shadowColor: 'yellow',
@@ -228,6 +246,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    marginTop: 10 
   },
   dropdownText: { fontSize: 16, color: AppColors.fontColor },
   placeholder: { opacity: 0.7 },
@@ -236,6 +255,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'center',
     paddingHorizontal: 24,
+    marginTop: -70,
   },
   modalContent: {
     backgroundColor: AppColors.background,
@@ -256,10 +276,27 @@ const styles = StyleSheet.create({
      fontWeight: '500',
       color: AppColors.fontColor,
        marginBottom: 8,
-       marginTop: 40,
+       marginTop: 10,
       textAlign: 'center',
      },
-  
+  titleInput: { 
+    backgroundColor: CARD_BG,
+    borderRadius: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    color: AppColors.fontColor,
+    minHeight: 10,
+    marginBottom: 24,
+    borderWidth: 1,
+    borderColor: 'rgba(220, 252, 231, 0.25)',
+    shadowColor: 'yellow',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  },
   descriptionInput: {
     backgroundColor: CARD_BG,
     borderRadius: 16,

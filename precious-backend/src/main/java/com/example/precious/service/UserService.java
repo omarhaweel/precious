@@ -7,13 +7,13 @@ import com.example.precious.dto.UserCreateDto;
 import com.example.precious.dto.UserResponseDto;
 import com.example.precious.entity.User;
 import com.example.precious.exception.EmailAlreadyExistsException;
-import com.example.precious.mapper.UserMapper;
+import com.example.precious.mapper.Mapper;
 import com.example.precious.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 /**
  * Application service for user operations. Returns only DTOs so that
- * the password is never exposed. Use {@link UserMapper} for entity-DTO conversion.
+ * the password is never exposed. Use {@link Mapper} for entity-DTO conversion.
  */
 
 @Service
@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
+    private final Mapper userMapper;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
